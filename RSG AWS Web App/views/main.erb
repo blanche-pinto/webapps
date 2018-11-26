@@ -1,0 +1,43 @@
+<!--This is an embedded ruby file (erb) which holds the template of the HTML document
+that will be displayed on the main web page.-->
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+    <!-- We'll be displaying the file choices using a drop down menu which is within a form. -->
+		<form action="/">
+			<h1>Welcome to the Random Sentence Generator!</h1>
+			<br>
+			Created by Blanche Pinto
+			<br>
+			Class: Web Applications Design - CAP 4063
+			<br>
+			
+
+			<!-- This label prompts the user to select a grammar file from the drop down menu -->
+			<label for="file">Select a grammar file:</label>
+
+			<!-- Using the files obtained within the grammar folder, we display all the files in the drop
+			down menu using ruby code -->
+			<select id="file" name="file" value="<%=@file%>">
+				<% @grammars.each do |fileName| %>
+					<option><%=fileName %></option>
+				<% end %>
+
+			</select>
+
+			<!-- This is a button which on click will generate a random sentence. -->
+			<input type="submit" value="Generate a Sentence!">
+		</form>
+
+		<h1>Selected File: <%= @file %></h1>
+
+		<br>
+
+		<!-- The generated sentence is then displayed. -->
+		<%= @generated_sentence %>
+	</body>
+</html>
