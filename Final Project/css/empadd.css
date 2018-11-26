@@ -1,0 +1,53 @@
+.bg{
+    background-image: url('https://images.unsplash.com/photo-1517638851339-a711cfcf3279?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6b7d3fd7313e179636c1189245a70534&auto=format&fit=crop&w=1650&q=80');	
+    background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	width: 100%;
+    height: 100%;
+    overflow: scroll;
+}
+
+.navbar{
+    background-color: #00004c;
+}
+
+.jumbotron{
+	background-color: #00004c;
+	color: white;
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Lato";
+}
+
+#currentsched, #header{
+	background-color: white;
+	color: black;
+}
+
+#currentemp{
+	background-color: #00004c;
+	color: white;
+}
+
+#form{
+	padding: 60px 80px;
+	margin: 90px 40px;
+	background-color: #00004c;
+	color: white;
+}
+
+#heading{
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+/*.table{
+	color: white;
+}*/

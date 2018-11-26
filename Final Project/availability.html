@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Availability</title>
+  <meta charset="utf-8">
+  <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <link href="css/avail.css" rel="stylesheet">
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ 	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hive Scheduler</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="empdashboard.html">Dashboard</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="active"><a href="availability.html">Availability</a></li>
+        <li><a href="schedule.html">Schedule</a></li>
+        <li><a href="timeoff.html">Time Off</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <!-- <li><a href="signup.html">Signup</a></li> -->
+        <li><a href="#">Log Out</a></li>
+      </ul>
+    </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid bg">
+    <div class="row" id="content">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+
+        <!-- availability table -->
+        <div class="row" id="currentsched">
+          <div class="col-md-12">
+            <h3 class="text-center">
+              <!-- add in name of the employee here -->
+              <!-- for example, Tawana's Weekly Availability -->
+              Weekly Availability
+            </h3><br>
+            <table class="table table-hover">
+              <thead>
+                <tr id="headings">
+                  <th>Day</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Saturday
+                  </td>
+                  <td>
+                    08:00:00
+                  </td>
+                  <td>
+                    10:00:00
+                  </td>
+                  <td>
+                    <a href="editavail.html" class="btn btn-success btn-block" role="button">Edit</a>
+                  </td>
+                  <td><a href="#" class="btn btn-danger btn-block" role="button">Delete</a></td>
+                </tr>
+              </tbody>
+            </table> 
+            <a href="addavail.html" class="btn btn-success btn-block" role="button" id="goback">Add New Availability</a>
+            <a href="empdashboard.html" class="btn btn-danger btn-block" role="button" id="goback">Back</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+
+
+
+</body>
+</html>
+
