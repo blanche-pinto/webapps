@@ -17,7 +17,42 @@ class Login extends React.Component {
   }
 
   handleSubmit(event) {
-    //alert('A name was submitted: ' + this.state.value);
+    
+    $.ajax({
+            type: 'POST',
+            url: '/login',
+            data: JSON.stringify({
+              username: this.state.username,
+              password: this.state.password
+            }),
+          
+            success: function(response) {
+                console.log(response);
+                if(response.succeed === true){
+                //     localStorage.setItem('userdata', JSON.stringify(response.user));
+                //     $('#loginComponent').hide();
+                //     let user = JSON.parse(localStorage.getItem('userdata'));
+                //     console.log(user);
+                //     if (user.role.toUpperCase() === 'IT') {
+                //         $('#itHome').show();
+                //         getUnassignedTable();
+                //     }
+                //     else
+                //         $('#userHome').show();
+                //     populateUser();
+                //     getAssignedTable();
+                  console.log("true");
+                }else{
+                    // $('#errorMessageLogin').text('Incorrect email and/or password.')
+                    console.log(response);
+                }
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });   
+
+
     event.preventDefault();
   }
 
