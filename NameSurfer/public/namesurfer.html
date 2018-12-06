@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NameSurfer</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <link href="test.css" rel="stylesheet">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" defer>
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        //---------------------------------------------------------------------
+        // REQUIRED GLOBAL VARIABLES
+
+        let globalResult = [];
+
+        // the data shown in the chart (you should NOT need to deal with this)
+        // addName, clearLastFromChart, and drawChart manipulate it
+        let data;
+
+        // the chart object (you should NOT need to deal with this)
+        // addName, clearLastFromChart, and drawChart manipulate it
+        let chart;
+
+        // the years (DO NOT CHANGE)
+        const years = [1900, 1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000];
+
+        // the chart options (you should NOT need to change these)
+        const options = {
+            curveType: 'function',
+            legend: {position: 'bottom'},
+            hAxis: {
+                ticks: years,
+                format: ''
+            },
+            vAxis: {direction: -1, minValue: 1, maxValue: 1001, format: ''},
+            animation: {
+                "startup": true,
+                duration: 1000,
+                easing: 'out'
+            }
+        };
+
+        // END REQUIRED GLOBAL VARIABLES
+        //---------------------------------------------------------------------
+
+        //---------------------------------------------------------------------
+        // HELPER FUNCTIONS
+        // you should NOT need to modify these, rather just
+        // call those you need to (mainly addName, and clearLastFromChart)
+
+        /**
+         * Adds the name to the graph
+         * @param name the name to add
+         * @param popsList a list of popularity integers in the range of 1 - 1001
+         */
+        function addName(name, popsList) {
+            // Set name to be first letter capitalized and the rest lowercase
+            name = name[0].toUpperCase() + name.slice(1).toLowerCase();
+            // add column for the name, now add the rows
+            data.addColumn("number", name);
+
+            // Get column number of newly added column
+            const colNum = data.getNumberOfColumns() - 1;
+
+            // Add each rank to the chart
+            popsList.forEach((value, index)=>{
+                data.setCell(index, colNum, value);
+            });
+
+            // draw the chart
+            chart.draw(data, options);
+
+            // re-enabled the Clear Last button
+            $("#clearLast").prop('disabled', false);
+        } // end addName
+
+        /**
+         * Removes the last added entry from the chart.
+         */
+        function removeLastFromChart() {
+            // is there at least 1 column to remove?
+            if (data.getNumberOfColumns() > 1) {
+                data.removeColumn(data.getNumberOfColumns() - 1);
+            }
+
+            // is there at least 1 column of data left?
+            if (data.getNumberOfColumns() > 1) {
+                // then draw the chart
+                chart.draw(data, options);
+            }
+            else {
+                // remove the chart from the DOM and recreate the chart
+                $("#chart").empty();
+                chart = new google.visualization.LineChart(document.getElementById('chart'));
+            }
+
+            // Check if we need to disable the Clear Last button
+            if (data.getNumberOfColumns() == 1) {
+                $("#clearLast").prop('disabled', true);
+            }
+        } // end removeLastFromChart
+
+
+        /**
+         * This is called auto-magically by the google.charts.setOnLoadCallback.
+         * YOU DO NOT NEED TO CALL THIS FUNCTION!
+         * Instead call the addName or removeLastFromChart functions as needed.
+         */
+        function drawChart() {
+            chart = new google.visualization.LineChart(document.getElementById('chart'));
+            data = new google.visualization.DataTable();
+            data.addColumn('number', 'Year');
+            data.addRows(years.length);
+            years.forEach(function (value, index) {
+                data.setCell(index, 0, value);
+            });
+        } // end drawChart
+
+        // END HELPER FUNCTIONS
+        //---------------------------------------------------------------------
+
+
+        // setup your handlers for form submit and clear last
+        $(document).ready(() => {
+            <!-- called when the user hits the Enter button in the textbox -->
+            $("#form").submit((evt) => {
+                evt.preventDefault();  // leave this here
+                // TODO: fill in the rest of the code to handle when Enter is hit (change event) in the textbox to make AJAX call and update chart
+                // var form = $(this);
+                // console.log(form.serialize())
+
+                let text = $('#input').val();
+                // console.log(text);
+
+                // Cleaning up the name
+                sanitizedName = text.replace(/[^A-Za-z0-9]/g, '')
+                nameSent = sanitizedName.charAt(0).toUpperCase() + sanitizedName.slice(1);
+
+                // the {text: text} sends a parameter named text with the
+                // value of what was typed in the textbox
+                $.get("/" + text)
+                    .done((data) => {
+                        // console.log(data);
+
+                        if (data[0][0] == nameSent) {
+                            // console.log(data[0][0] + " " + data[0].slice(1))
+                            addName(data[0][0], data[0].slice(1));
+                        }
+
+                        $('#input').val('');   // reset the textbox
+
+                    })
+                    .fail((xhr) => {
+                        alert('Name not found.');
+                        console.log(xhr);
+                    });
+            });
+
+            // TODO: add code to handle click event of Clear Last button
+            $("#clearLast").click((evt) => {
+                console.log('Clearing');
+                removeLastFromChart();
+            });
+
+        }); // end document ready handler
+    </script>
+</head>
+
+<body>
+
+    <!--Form is displayed here-->
+
+    <div class="container-fluid bg-2 row text-center">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <h1 class="margin">Name Surfer</h1>
+                <form id="form">
+                    <input type="text" name="text" id="input" placeholder="Name">
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-primary" id="clearLast" enabled>Clear Last</button>
+                </form>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--Chart gets displayed here-->
+    <div class="container-fluid bg-3 row text-center" >
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div id="chart" style="width: 900px; height: 500px">
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
